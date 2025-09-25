@@ -2,11 +2,16 @@ import cv2
 import os
 
 # --- CONFIGURATION ---
-# Path to your Haar Cascade XML file (it's in the same folder)
+# The pre-trained model file
 cascade_filepath = 'file.xml' 
 
-# Path to the image you want to test (also in the same folder)
-image_filepath = r'C:\Users\sunku\Haar_Project\WhatsApp Image 2025-05-03 at 11.58.04_828f7781.jpg'
+# IMPORTANT: Change this to the name of the image you want to test.
+# This image file must be in the same folder as your script.
+# Remember: This model is for HUMAN faces and will not find animals.
+image_filepath = 'lion-animal-isolated-photo.jpg' 
+
+# The name of the file that will be saved with the results
+output_filename = 'detection_output.jpg'
 # ---------------------
 
 
@@ -27,7 +32,7 @@ if not os.path.exists(image_filepath):
 
 image = cv2.imread(image_filepath)
 if image is None:
-    print(f"Error: Could not read the image. It might be corrupt or in an unsupported format.")
+    print(f"Error: Could not read the image from '{image_filepath}'. It might be corrupt or an unsupported format.")
     exit()
 
 # 3. Convert the image to grayscale (Haar cascades work on grayscale images)
@@ -47,16 +52,11 @@ print(f"Found {len(detected_objects)} objects!")
 for (x, y, w, h) in detected_objects:
     cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-# 6. Save and Display the final image with detections
-# ================== NEW PART STARTS HERE ==================
+# 6. Save the final image with detections to a new file
+cv2.imwrite(output_filename, image)
+print(f"Successfully saved the output image as {output_filename}")
 
-# Save the image with the drawn rectangle to a new file
-cv2.imwrite("detection_output.jpg", image)
-print("Successfully saved the output image as detection_output.jpg")
-
-# =================== NEW PART ENDS HERE ===================
-
-# Display the final image in a window
+# 7. Display the final image in a window
 cv2.imshow('Detections', image)
 
 # Wait until a key is pressed to close the image window
