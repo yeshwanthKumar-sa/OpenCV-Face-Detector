@@ -7,3 +7,5 @@ __pycache__/
 *.jpeg
 *.png
 
+# BUT, do NOT ignore the specific output file
+!detection_output.jpg
