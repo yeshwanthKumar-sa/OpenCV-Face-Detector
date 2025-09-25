@@ -34,9 +34,6 @@ if image is None:
 gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
 # 4. Perform the detection
-#    - scaleFactor: How much the image size is reduced at each image scale.
-#    - minNeighbors: How many neighbors each candidate rectangle should have to retain it.
-#    - minSize: Minimum possible object size. Objects smaller than this are ignored.
 detected_objects = cascade_classifier.detectMultiScale(
     gray_image,
     scaleFactor=1.1,
@@ -48,10 +45,18 @@ print(f"Found {len(detected_objects)} objects!")
 
 # 5. Draw rectangles around the detected objects on the original color image
 for (x, y, w, h) in detected_objects:
-    # cv2.rectangle(image, start_point, end_point, color, thickness)
     cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-# 6. Display the final image with detections in a window
+# 6. Save and Display the final image with detections
+# ================== NEW PART STARTS HERE ==================
+
+# Save the image with the drawn rectangle to a new file
+cv2.imwrite("detection_output.jpg", image)
+print("Successfully saved the output image as detection_output.jpg")
+
+# =================== NEW PART ENDS HERE ===================
+
+# Display the final image in a window
 cv2.imshow('Detections', image)
 
 # Wait until a key is pressed to close the image window
